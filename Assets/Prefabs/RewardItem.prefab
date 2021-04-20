@@ -154,7 +154,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 6000Rank
+  m_Text: 6000 Rank
 --- !u!114 &6467718918226904459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0133b20058ec4eb1b3184954183cf26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rewardItem: {fileID: -297501856357219177}
   rewardPoints: {fileID: 6467718919118265189}
   coinsReward: {fileID: 6467718918747165215}
   rankReward: {fileID: 6467718918226904458}
@@ -362,7 +363,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100Coins
+  m_Text: 100 coins
 --- !u!114 &6467718918747165212
 MonoBehaviour:
   m_ObjectHideFlags: 0

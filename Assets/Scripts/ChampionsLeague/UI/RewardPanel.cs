@@ -1,45 +1,47 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using ChampionsLeague.Data;
 using UnityEngine;
 
-public class RewardPanel : MonoBehaviour
+namespace ChampionsLeague.UI
 {
-    [SerializeField] private RewardItem _rewardItem;
-    [SerializeField] private GameObject content;
-
-    private List<RewardItem> _rewardItems = new List<RewardItem>();
-    private List<int> rewardPoints = new List<int>();
-
-    public void Init()
+    public class RewardPanel : MonoBehaviour
     {
-        int start = SeasonInfo.MINRewardPoints;
-        int end = SeasonInfo.MAXRewardPoints;
-        for (int i = start; i <= end; i += 200)
+        [SerializeField] private RewardItem rewardItem;
+        [SerializeField] private GameObject content;
+
+        private readonly List<RewardData> _rewardDatas = new List<RewardData>();
+
+        public void Init(DataTable dt)
         {
-            _rewardItems.Add(_rewardItem);
-            rewardPoints.Add(i);
+            for (int i = 0; i < dt.Rows.Count; i ++)
+            {
+                var datarow = dt.Rows[i];
+                RewardData rewardData = new RewardData();
+                rewardData.Point = Convert.ToInt32(datarow["points"]);
+                rewardData.RewardType = datarow["rewardType"].ToString();
+                _rewardDatas.Add(rewardData);
+            }
+        }
+    
+        public void CreateItems()
+        {
+            for (int i = 0; i < _rewardDatas.Count; i ++)
+            {
+                RewardItem item = Instantiate(rewardItem, content.transform);
+                item.SetData(_rewardDatas[i]);
+                item.SetClaimedStatus(_rewardDatas[i]);
+                item.SetEvent();
+            }
         }
 
-        for (int i = 0; i < rewardPoints.Count; i ++)
+        public void DestroyItems()
         {
-            _rewardItems[i].SetData(rewardPoints[i]);
-            RewardItem item = Instantiate(_rewardItems[i], content.transform);
-            item.SetEvent();
-        }
-    }
-
-    public void Refresh()
-    {
-        int rewardItemCount = content.transform.childCount;
-        for (int i = rewardItemCount - 1; i >= 0; i--)
-        {
-            Destroy(content.transform.GetChild(i).gameObject);
-        }
-        
-        for (int i = 0; i < rewardPoints.Count; i ++)
-        {
-            _rewardItems[i].SetData(rewardPoints[i]);
-            RewardItem item = Instantiate(_rewardItems[i], content.transform);
-            item.SetEvent();
+            for (int i = content.gameObject.transform.childCount - 1; i >= 0; i--)
+            {
+                Destroy(content.gameObject.transform.GetChild(i).gameObject);
+            }
         }
     }
 }

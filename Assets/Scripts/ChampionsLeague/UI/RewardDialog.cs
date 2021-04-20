@@ -1,17 +1,27 @@
-﻿using UnityEngine;
+﻿using System.Data;
+using UnityEngine;
 
-public class RewardDialog : MonoBehaviour
+namespace ChampionsLeague.UI
 {
-    [SerializeField] private RewardDialog _rewardDialog;
-    [SerializeField] private RewardPanel _rewardPanel;
-
-    private void Awake()
+    public class RewardDialog : MonoBehaviour
     {
-        _rewardPanel.Refresh();
-    }
+        [SerializeField] private RewardDialog rewardDialog;
+        [SerializeField] private RewardPanel rewardPanel;
 
-    public void OnCloseClick()
-    {
-        _rewardDialog.gameObject.SetActive(false);
+        private DataTable _dt;
+
+        public void Init(DataTable dt)
+        {
+            _dt = dt;
+            rewardPanel.Init(_dt);
+            rewardPanel.CreateItems();
+        }
+
+        public void OnCloseClick()
+        {
+            rewardDialog.gameObject.SetActive(false);
+            rewardPanel.DestroyItems();
+            Destroy(gameObject);
+        }
     }
 }
